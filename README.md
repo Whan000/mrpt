@@ -1,4 +1,3 @@
-
 <h1 align="center">The MRPT project</h1>
 
 <a href="https://github.com/MRPT/mrpt/actions/workflows/build-linux.yml"><img src="https://github.com/MRPT/mrpt/actions/workflows/build-linux.yml/badge.svg" /></a>
@@ -55,7 +54,37 @@ Supported distributions:
 
 ### 3.2. Build from sources
 
-See [build documentation](https://docs.mrpt.org/reference/latest/compiling.html) ([source](doc/source/compiling.rst)).
+#### Remove conflicting system packages (if any)
+
+If you have previously installed MRPT from packages and are switching to building from source, first remove the system packages:
+```bash
+sudo apt remove --purge 'libmrpt-*' mrpt-apps python3-pymrpt
+sudo apt autoremove
+```
+
+#### Install build dependencies
+```bash
+sudo apt update
+sudo apt install build-essential cmake libwxgtk3.0-gtk3-dev libopencv-dev \
+    libeigen3-dev libsuitesparse-dev qtbase5-dev libqt5opengl5-dev \
+    liboctomap-dev libpcap-dev libftdi-dev freeglut3-dev zlib1g-dev \
+    libusb-1.0-0-dev libudev-dev libfreenect-dev libdc1394-dev \
+    libavformat-dev libswscale-dev libassimp-dev libjpeg-dev \
+    libxrandr-dev libxxf86vm-dev
+```
+
+#### Build and install
+```bash
+git clone https://github.com/MRPT/mrpt.git --recursive
+cd mrpt
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+```
+
+For more detailed build instructions and options, see the [full build documentation](https://docs.mrpt.org/reference/latest/compiling.html) ([source](doc/source/compiling.rst)).
 
 ### 3.3. Windows precompiled versions
 
